@@ -3,8 +3,8 @@ package movies
 import (
 	"net/http"
 
-	"github.com/GoesToEleven/golang-web-dev/final_project/config"
-	"github.com/GoesToEleven/golang-web-dev/final_project/users"
+	"github.com/Andrew-Klaas/go-movies-app/config"
+	"github.com/Andrew-Klaas/go-movies-app/users"
 )
 
 //CheckMembership ...

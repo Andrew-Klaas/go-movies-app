@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/GoesToEleven/golang-web-dev/final_project/config"
+	"github.com/Andrew-Klaas/go-movies-app/config"
 )
 
 // Movie ...

@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/GoesToEleven/golang-web-dev/final_project/movies"
-	"github.com/GoesToEleven/golang-web-dev/final_project/users"
+	"github.com/Andrew-Klaas/go-movies-app/movies"
+	"github.com/Andrew-Klaas/go-movies-app/users"
 )
 
 func init() {
@@ -39,6 +39,7 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
+//Version ...
 func Version(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	ai := appInfo{
@@ -50,22 +51,3 @@ func Version(w http.ResponseWriter, req *http.Request) {
 		log.Println(err)
 	}
 }
-
-/*
-
-CREATE DATABASE movies;
-\c movies;
-CREATE TABLE mymovies (
-   movieID SERIAL PRIMARY KEY,
-   title           TEXT    NOT NULL,
-   director           TEXT    NOT NULL,
-   price         REAL DEFAULT 25500.00
-);
-CREATE USER goapp WITH PASSWORD 'password';
-GRANT ALL PRIVILEGES ON DATABASE movies to goapp;
-INSERT INTO mymovies (title,director,price) VALUES('Gladiator', 'Ridley Scott', 10.99);
-
-
-INSERT INTO gomovies (movieID, title,director,price) VALUES(1,'Gladiator', 'Ridley Scott', 10.99);
-
-*/
