@@ -66,7 +66,6 @@ GRANT ALL PRIVILEGES ON DATABASE movies to goapp;
 INSERT INTO mymovies (title,director,price) VALUES('Gladiator', 'Ridley Scott', 10.99);
 
 
-
 INSERT INTO gomovies (movieID, title,director,price) VALUES(1,'Gladiator', 'Ridley Scott', 10.99);
 
 */

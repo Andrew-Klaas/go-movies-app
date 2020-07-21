@@ -2,7 +2,6 @@ package movies
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -19,7 +18,6 @@ type Movie struct {
 
 //AllMovies ...
 func AllMovies() ([]Movie, error) {
-	fmt.Printf("Getting all movies\n")
 	var err error
 	//var rows *sql.Rows
 	rows, err := config.DB.Query("SELECT * FROM movies")
@@ -32,7 +30,6 @@ func AllMovies() ([]Movie, error) {
 	for rows.Next() {
 		mv := Movie{}
 		err := rows.Scan(&mv.MovieID, &mv.Title, &mv.Director, &mv.Price)
-		fmt.Printf("mv: %v\n", mv)
 		if err != nil {
 			return nil, err
 		}
@@ -46,7 +43,6 @@ func AllMovies() ([]Movie, error) {
 
 //SingleMovie ...
 func SingleMovie(req *http.Request) (Movie, error) {
-	fmt.Printf("Grabbing Single Movie\n")
 	mv := Movie{}
 	mvID := req.FormValue("movieID")
 	if mvID == "" {

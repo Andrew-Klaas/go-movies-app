@@ -48,6 +48,7 @@ func Signup(w http.ResponseWriter, req *http.Request) {
 		http.SetCookie(w, c)
 		Sessions[c.Value] = Session{un, time.Now()}
 
+		fmt.Printf("Plaintext password: %v\n", pw)
 		//HashiCorp Vault encryption
 		data := map[string]interface{}{
 			"plaintext": base64.StdEncoding.EncodeToString([]byte(pw)),
@@ -56,8 +57,8 @@ func Signup(w http.ResponseWriter, req *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("cphertext: %v\n\n", ctxt.Data["ciphertext"])
 		s := ctxt.Data["ciphertext"].(string)
+		fmt.Printf("Vault encrypted password: %v\n", s)
 
 		Users[un] = User{un, []byte(s), f, l, r}
 		http.Redirect(w, req, "/", http.StatusSeeOther)
@@ -86,14 +87,12 @@ func Login(w http.ResponseWriter, req *http.Request) {
 		data := map[string]interface{}{
 			"ciphertext": string(u.Password),
 		}
-		fmt.Printf("\ndecrypt data: %v\n", data)
 		b64ptxt, err := config.Vclient.Logical().Write("transit/decrypt/my-key", data)
 		if err != nil {
 			log.Fatal(err)
 		}
 		s := strings.Split(b64ptxt.Data["plaintext"].(string), ":")
 		realptxt, err := base64.StdEncoding.DecodeString(s[0])
-		fmt.Printf("plaintext: %v\n", string(realptxt))
 		if string(realptxt) != pw {
 			http.Error(w, "Username and/or password do not match", http.StatusForbidden)
 			return
@@ -109,7 +108,6 @@ func Login(w http.ResponseWriter, req *http.Request) {
 		Sessions[c.Value] = Session{un, time.Now()}
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 	}
-	fmt.Printf("show login page")
 	config.TPL.ExecuteTemplate(w, "login.gohtml", nil)
 }
 
@@ -152,6 +150,5 @@ func MovieStore(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	//Show()
-	fmt.Printf("Movie Store user: %v\n", u)
 	config.TPL.ExecuteTemplate(w, "moviestore.gohtml", u)
 }

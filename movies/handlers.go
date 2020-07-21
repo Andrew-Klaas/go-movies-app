@@ -1,17 +1,16 @@
 package movies
 
 import (
-	"fmt"
 	"net/http"
 
-	"github.com/GoesToEleven/golang-web-dev/042_mongodb/11_solution/session"
 	"github.com/GoesToEleven/golang-web-dev/final_project/config"
+	"github.com/GoesToEleven/golang-web-dev/final_project/users"
 )
 
 //CheckMembership ...
 func CheckMembership(w http.ResponseWriter, req *http.Request) {
-	u := session.GetUser(w, req)
-	if !session.AlreadyLoggedIn(w, req) {
+	u := users.GetUser(w, req)
+	if !users.AlreadyLoggedIn(w, req) {
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 		return
 	}
@@ -24,9 +23,7 @@ func CheckMembership(w http.ResponseWriter, req *http.Request) {
 
 //MovieStore ...
 func MovieStore(w http.ResponseWriter, req *http.Request) {
-	//TODO: FIX
-	fmt.Printf("\nattempting to enter moviestore\n")
-	//CheckMembership(w, req)
+	CheckMembership(w, req)
 
 	if req.Method != http.MethodGet {
 		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)

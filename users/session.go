@@ -70,12 +70,10 @@ func Show() {
 }
 
 func Clean() {
-	fmt.Println("CLEAN BEGIN\n")
 	for k, v := range Sessions {
 		if time.Now().Sub(v.LastActivity) > (time.Second * 30) {
 			delete(Sessions, k)
 		}
 	}
 	Show()
-	fmt.Println("CLEAN FINISHED\n")
 }
