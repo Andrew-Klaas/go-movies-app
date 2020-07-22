@@ -10,8 +10,8 @@ vault secrets enable database
 vault write database/config/my-postgresql-database \
 plugin_name=postgresql-database-plugin \
 allowed_roles="my-role" \
-connection_url="postgresql://{{username}}:{{password}}@localhost:5432/movies?sslmode=disable" \
-username="goapp" \
+connection_url="postgresql://{{username}}:{{password}}@pq-postgresql-default.service.consul:5432/movies?sslmode=disable" \
+username="postgres" \
 password="password"
 
 vault write database/roles/my-role \

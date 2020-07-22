@@ -49,7 +49,7 @@ func init() {
 	data, _ := Vclient.Logical().Read("database/creds/my-role")
 	username := data.Data["username"]
 	password := data.Data["password"]
-	SQLQuery := "postgres://" + username.(string) + ":" + password.(string) + "@localhost/movies?sslmode=disable"
+	SQLQuery := "postgres://" + username.(string) + ":" + password.(string) + "@pq-postgresql-default.service.consul:5432/movies?sslmode=disable"
 
 	//Open DB connection
 	var err error

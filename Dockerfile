@@ -1,13 +1,10 @@
 # Start from a Debian image with the latest version of Go installed
 # and a workspace (GOPATH) configured at /go.
 FROM golang
-
-# Copy the local package files to the container's workspace.
 ADD . /go/src/github.com/Andrew-Klaas/go-movies-app
-
-# Build the outyet command inside the container.
-# (You may fetch or manage dependencies here,
-# either manually or with a tool like "godep".)
+WORKDIR /go/src/github.com/Andrew-Klaas/go-movies-app
+RUN pwd
+RUN ls
 RUN go get github.com/satori/go.uuid
 RUN go get github.com/hashicorp/vault/api
 RUN go get github.com/lib/pq
