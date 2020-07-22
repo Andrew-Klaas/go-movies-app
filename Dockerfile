@@ -3,8 +3,6 @@
 FROM golang
 ADD . /go/src/github.com/Andrew-Klaas/go-movies-app
 WORKDIR /go/src/github.com/Andrew-Klaas/go-movies-app
-RUN pwd
-RUN ls
 RUN go get github.com/satori/go.uuid
 RUN go get github.com/hashicorp/vault/api
 RUN go get github.com/lib/pq
