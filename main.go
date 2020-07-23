@@ -43,7 +43,7 @@ func main() {
 func Version(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	ai := appInfo{
-		Version: 1,
+		Version: 2,
 		Owner:   "andrew",
 	}
 	err := json.NewEncoder(w).Encode(ai)
