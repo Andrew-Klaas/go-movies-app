@@ -18,7 +18,7 @@ var httpClient = &http.Client{
 	Timeout: 10 * time.Second,
 }
 
-//VClient ...
+//Vclient ...
 var Vclient, _ = api.NewClient(&api.Config{Address: "http://127.0.0.1:8200", HttpClient: httpClient})
 var tokenPath = "/var/run/secrets/kubernetes.io/serviceaccount/token"
 var k8sAuthRole = "go-movies-app"
@@ -43,6 +43,8 @@ func init() {
 	}
 	token := secret.Auth.ClientToken
 	fmt.Printf("Vault token: %v\n", token)
+
+	//token := "password"
 	Vclient.SetToken(token)
 
 	//Vault dynamic DB secrets

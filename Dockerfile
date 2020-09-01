@@ -13,3 +13,6 @@ ENTRYPOINT /go/bin/go-movies-app
 
 # Document that the service listens on port 8080.
 EXPOSE 8080
+
+#docker build -t aklaas2/go-movies-app .;docker push aklaas2/go-movies-app:latest
+#docker build -t aklaas2/go-movies-app-v2 .;docker push aklaas2/go-movies-app-v2:latest

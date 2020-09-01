@@ -1,6 +1,7 @@
 package movies
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/Andrew-Klaas/go-movies-app/config"
@@ -109,4 +110,36 @@ func DeleteProcess(w http.ResponseWriter, req *http.Request) {
 	}
 
 	http.Redirect(w, req, "/movies", http.StatusSeeOther)
+}
+
+//AddToFavoriteProcess ...
+func AddToFavoriteProcess(w http.ResponseWriter, req *http.Request) {
+
+	mvTitle := req.FormValue("title")
+	u := users.GetUser(w, req)
+	fmt.Printf("Adding mv: % v to user %v favorites\n", mvTitle, u)
+
+	err := AddToFavorite(mvTitle, u)
+	if err != nil {
+		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+	}
+
+	http.Redirect(w, req, "/movies", http.StatusSeeOther)
+}
+
+//Favorites ...
+func Favorites(w http.ResponseWriter, req *http.Request) {
+	u := users.GetUser(w, req)
+	if !users.AlreadyLoggedIn(w, req) {
+		http.Redirect(w, req, "/", http.StatusSeeOther)
+		return
+	}
+
+	favs, err := AllFavorites(u)
+	if err != nil {
+		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+	}
+
+	fmt.Printf("\nfavorites list: %v\n", favs)
+	config.TPL.ExecuteTemplate(w, "favorites.gohtml", favs)
 }

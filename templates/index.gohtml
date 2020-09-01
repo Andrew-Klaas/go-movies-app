@@ -3,27 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link rel="stylesheet" href="public/css/index.css">
     <style>
         h1 {
-            background-color: red;
+            background-color: yellow;
         }
     </style>
 </head>
 <body>
-<h1>Movie Store V2</h1>
+    <ul>
+        <li><a href="/login" class="nav">Login</a></li>
+        <li><a href="/signup" class="nav">Signup</a></li>
+        <li><a href="/logout" class="nav">logout</a></li>
+        <li><a href="/movies/favorites" class="nav">favorites</a></li> 
+        <li><a href="/movies" class="nav">Go to the Moviestore</a></li> 
+    </ul>
+    
+<h1>Movie Store V1</h1>
 {{if .First}}
 USER NAME {{.UserName}}<br>
 PASSWORD {{.Password}}<br>
 FIRST {{.First}}<br>
 LAST {{.Last}}<br>
-<h2><a href="/logout">log out</a></h2>
-{{else}}
-<h2><a href="/signup">sign up</a></h2>
-<h2><a href="/login">log in</a></h2>
 {{end}}
 
-<br>
-<h2>Go to <a href="/movies">the moviestore</a></h2>
+Please Login to access the store
 
 </body>
 </html>

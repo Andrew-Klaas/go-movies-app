@@ -10,8 +10,8 @@ vault secrets enable database
 vault write database/config/my-postgresql-database \
 plugin_name=postgresql-database-plugin \
 allowed_roles="my-role" \
-connection_url="postgresql://{{username}}:{{password}}@pq-postgresql-default.service.consul:5432/movies?sslmode=disable" \
-username="postgres" \
+connection_url="postgresql://{{username}}:{{password}}@127.0.0.1:5432/movies?sslmode=disable" \
+username="goapp" \
 password="password"
 
 vault write database/roles/my-role \
@@ -21,4 +21,4 @@ ALTER USER \"{{name}}\" WITH SUPERUSER;" \
 default_ttl="1h" \
 max_ttl="24h"
 
-#vault read database/creds/my-role
+vault read database/creds/my-role

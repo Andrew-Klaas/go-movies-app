@@ -1,11 +1,17 @@
 package movies
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
+	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/Andrew-Klaas/go-movies-app/config"
+	"github.com/Andrew-Klaas/go-movies-app/users"
 )
 
 // Movie ...
@@ -14,6 +20,20 @@ type Movie struct {
 	Title    string
 	Director string
 	Price    float32
+}
+type Favorite struct {
+	UserName string
+	Movies   []Movie
+}
+type FavoriteRecord struct {
+	UserName string `json:"UserName"`
+	Title    string `json:"Title"`
+}
+type JMovie struct {
+	MovieID  string `json:"MovieID"`
+	Title    string `json:"Title"`
+	Director string `json:"Director"`
+	Price    string `json:"Price"`
 }
 
 //AllMovies ...
@@ -108,6 +128,66 @@ func UpdateMovie(req *http.Request) (Movie, error) {
 		return mv, err
 	}
 	return mv, nil
+}
+
+//AddToFavorite ...
+func AddToFavorite(title string, u users.User) error {
+
+	url := "http://localhost:8081/addtoFavorite"
+	cr := FavoriteRecord{u.UserName, title}
+
+	bs, err := json.Marshal(cr)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("\nbs: %v\n", string(bs))
+	nreq, err := http.NewRequest("POST", url, bytes.NewBuffer(bs))
+	nreq.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(nreq)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	fmt.Println("response Status:", resp.Status)
+	fmt.Println("reponse Headers:", resp.Header)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("response Body:", string(body))
+
+	return nil
+}
+
+//AllFavorites ...
+func AllFavorites(u users.User) ([]string, error) {
+	fmt.Printf("\nrequesting all favorites from favorites API\n")
+	url := "http://localhost:8081/getFavorite"
+
+	nreq, err := http.NewRequest("GET", url, nil)
+	q := nreq.URL.Query()
+	q.Add("username", u.UserName)
+	nreq.URL.RawQuery = q.Encode()
+	fmt.Println(nreq.URL.String())
+
+	client := &http.Client{}
+	resp, err := client.Do(nreq)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	fmt.Println("response Status:", resp.Status)
+	fmt.Println("reponse Headers:", resp.Header)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("response Body:", string(body))
+
+	//unmarshal JSON into golang
+	var data []string
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Println(data)
+
+	return data, nil
 }
 
 //DeleteMovie ...

@@ -34,8 +34,10 @@ func main() {
 	http.HandleFunc("/movies/update", movies.Update)
 	http.HandleFunc("/movies/update/process", movies.UpdateProcess)
 	http.HandleFunc("/movies/delete/process", movies.DeleteProcess)
+	http.HandleFunc("/movies/addtoFavorite/process", movies.AddToFavoriteProcess)
+	http.HandleFunc("/movies/favorites", movies.Favorites)
 	http.Handle("/favicon.ico", http.NotFoundHandler())
-	//Server
+	http.Handle("/public/", http.StripPrefix("/public", http.FileServer(http.Dir("public"))))
 	http.ListenAndServe(":8080", nil)
 }
 
