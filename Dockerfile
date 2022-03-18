@@ -1,11 +1,16 @@
+# syntax=docker/dockerfile:1
+
 # Start from a Debian image with the latest version of Go installed
 # and a workspace (GOPATH) configured at /go.
-FROM golang
-ADD . /go/src/github.com/Andrew-Klaas/go-movies-app
+FROM golang:1.16-alpine
 WORKDIR /go/src/github.com/Andrew-Klaas/go-movies-app
-RUN go get github.com/satori/go.uuid
-RUN go get github.com/hashicorp/vault/api
-RUN go get github.com/lib/pq
+ADD . /go/src/github.com/Andrew-Klaas/go-movies-app
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+RUN go get github.com/Andrew-Klaas/go-movies-app
 RUN go install /go/src/github.com/Andrew-Klaas/go-movies-app
 
 # Run the outyet command by default when the container starts.
