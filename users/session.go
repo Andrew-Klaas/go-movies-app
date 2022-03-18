@@ -9,7 +9,7 @@ import (
 )
 
 //Length ...
-const Length int = 30
+const Length int = 3000
 
 //Sessions SessionID|Session{UserName,LastActivity}
 var Sessions = map[string]Session{}
@@ -71,7 +71,7 @@ func Show() {
 
 func Clean() {
 	for k, v := range Sessions {
-		if time.Now().Sub(v.LastActivity) > (time.Second * 30) {
+		if time.Now().Sub(v.LastActivity) > (time.Second * 3000) {
 			delete(Sessions, k)
 		}
 	}

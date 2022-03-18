@@ -12,6 +12,7 @@ import (
 func CheckMembership(w http.ResponseWriter, req *http.Request) {
 	u := users.GetUser(w, req)
 	if !users.AlreadyLoggedIn(w, req) {
+		fmt.Printf("user not logged in")
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 		return
 	}
@@ -24,7 +25,7 @@ func CheckMembership(w http.ResponseWriter, req *http.Request) {
 
 //MovieStore ...
 func MovieStore(w http.ResponseWriter, req *http.Request) {
-	CheckMembership(w, req)
+	//CheckMembership(w, req)
 
 	if req.Method != http.MethodGet {
 		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)

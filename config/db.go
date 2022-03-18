@@ -51,8 +51,8 @@ func init() {
 	data, _ := Vclient.Logical().Read("database/creds/my-role")
 	username := data.Data["username"]
 	password := data.Data["password"]
-	//SQLQuery := "postgres://" + username.(string) + ":" + password.(string) + "@pq-postgresql.service.consul:5432/movies?sslmode=disable"
-	SQLQuery := "postgres://" + username.(string) + ":" + password.(string) + "@localhost:5432/movies?sslmode=disable"
+	SQLQuery := "postgres://" + username.(string) + ":" + password.(string) + "@pq-postgresql.default.svc.cluster.local:5432/vault_go_demo?sslmode=disable"
+	//SQLQuery := "postgres://" + username.(string) + ":" + password.(string) + "@localhost:5432/movies?sslmode=disable"
 
 	//Open DB connection
 	var err error
